@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>今晚喝点吗 · 产品原型</title>
+<link rel="stylesheet" href="css/common.css?v=6">
+<style>
+  .launch-brand .logo-bottle { width: 46px; height: 46px; color: var(--wk-amber); display: block; margin: 0 auto 18px; opacity: .9; }
+  .entry-card .meta { margin-top: 10px; font-size: 12px; color: var(--wk-text-3); display: flex; gap: 12px; }
+  .entry-card .meta b { color: var(--wk-text-2); font-weight: 500; }
+  .legend { display: none; }
+</style>
+</head>
+<body>
+<div class="launch">
+  <div class="launch-brand">
+    <svg class="logo-bottle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 2.5h4v4l1.6 2.4V20a1.5 1.5 0 0 1-1.5 1.5h-4.2A1.5 1.5 0 0 1 8.4 20V8.9L10 6.5v-4Z"/>
+      <path d="M8.4 12h7.2"/><path d="M8.4 17h7.2"/>
+    </svg>
+    <div class="mark">今晚喝点吗<small>JVHD · PROTOTYPE V1.0</small></div>
+    <div class="sub">反差型少喝工具 · 微信小程序</div>
+    <div class="tagline">外表劲浪 · 内核清醒</div>
+  </div>
+
+  <div class="entry-grid">
+    <button class="entry-card mini" data-go="mini">
+      <span class="ec-corner"></span>
+      <div class="ec-icon" id="ec-mini"></div>
+      <h3>小程序原型</h3>
+      <p>面向饮酒者的用户端体验：今晚喝点吗三选一入口、10 分钟拖延干预、30 秒记录、留白日历、克制地图、劝少小游戏与即时反馈。全部交互可点击、状态可保留。</p>
+      <div class="meta"><span>手机端</span><span>·</span><span><b>9</b> 个页面</span><span>·</span><span>交互闭环</span></div>
+      <div class="launch-qr">
+        <div class="qr"></div>
+        <div>扫码体验真实小程序<br><span style="opacity:.7">（原型演示无需扫码，直接点击卡片进入）</span></div>
+      </div>
+      <div class="ec-foot"><div class="ec-tags"><span class="ec-tag">P0 决策入口</span><span class="ec-tag">拖延机制</span><span class="ec-tag">克制地图</span></div><span class="ec-arrow">→</span></div>
+    </button>
+
+    <button class="entry-card admin" data-go="admin">
+      <span class="ec-corner"></span>
+      <div class="ec-icon" id="ec-admin"></div>
+      <h3>后台原型</h3>
+      <p>面向产品运营人员的管理控制台：数据工作台、用户档案、酒库审核、文案库与合规校验、阈值配置、地点聚合（脱敏）、权限与操作日志、数据导出。可真实操作审核、配置与导出。</p>
+      <div class="meta"><span>桌面端</span><span>·</span><span><b>11</b> 个模块</span><span>·</span><span>RBAC 权限演示</span></div>
+      <div class="ec-foot"><div class="ec-tags"><span class="ec-tag">合规校验</span><span class="ec-tag">酒库审核</span><span class="ec-tag">阈值配置</span></div><span class="ec-arrow">→</span></div>
+      <div class="ec-acc">演示账号 <b>hekang / jvhd@2026</b>（超级管理员）· <b>linxiao / jvhd@2026</b>（运营 · 可体验权限受限）</div>
+    </button>
+  </div>
+
+  <div class="launch-foot">
+    <span>申报口径：GB/T 8567-2006 · JVHD-SRS-2026-001</span>
+    <span class="dot"></span>
+    <a href="#" id="reset-all" style="color:var(--wk-text-2); text-decoration:none;">重置全部演示数据</a>
+    <span class="dot"></span>
+    <span>原型数据仅存储于本机浏览器</span>
+  </div>
+</div>
+
+<script src="js/core.js?v=13"></script>
+<script>
+  document.getElementById('ec-mini').innerHTML = Core.icon('phone', 28);
+  document.getElementById('ec-admin').innerHTML = Core.icon('dashboard', 28);
+
+  document.querySelectorAll('[data-go]').forEach(el => {
+    el.addEventListener('click', () => {
+      location.href = el.dataset.go + '/index.html';
+    });
+  });
+  document.getElementById('reset-all').addEventListener('click', (e) => {
+    e.preventDefault();
+    Core.modal({
+      title: '重置演示数据',
+      body: '将清空本机保存的所有原型操作数据（记录、审核结果、阈值修改、登录状态等），恢复到初始演示状态。确定继续吗？',
+      actions: [
+        { label: '取消' },
+        { label: '重置全部', cls: 'danger', onClick: () => { Core.resetAll(); Core.toast('已重置全部演示数据', { icon: 'check' }); } },
+      ],
+    });
+  });
+
+  // 演示提示
+  const tip = document.createElement('div');
+  tip.className = 'demo-tip';
+  tip.innerHTML = '<b>演示说明</b> 选择端进入原型 · 数据保存在本机浏览器，刷新不丢失 · 两端共用同一套演示数据';
+  document.querySelector('.launch, main').appendChild(tip);
+</script>
+</body>
+</html>
